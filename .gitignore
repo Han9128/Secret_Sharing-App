@@ -1,0 +1,6 @@
+.env
+solution.js
+node_modules/
+solution-queries.sql
+.vscode/
+.DS_Store
