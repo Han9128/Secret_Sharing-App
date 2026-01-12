@@ -46,6 +46,27 @@ const db = new pg.Client({
 
 db.connect();
 
+// For automatice TABLE creation for deployment
+
+const createTables = async () => {
+  try {
+    await db.query(`
+      CREATE TABLE IF NOT EXISTS users (
+        id SERIAL PRIMARY KEY,
+        email CITEXT UNIQUE NOT NULL,
+        password TEXT NOT NULL,
+        secret TEXT
+      );
+    `);
+    console.log("Users table is ready!");
+  } catch (err) {
+    console.error("Error creating tables:", err);
+  }
+};
+
+createTables();
+
+
 
 app.get("/", (req, res) => {
   res.render("home.ejs");
