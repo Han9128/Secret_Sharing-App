@@ -9,7 +9,8 @@ import session from "express-session";
 import env from "dotenv";
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
+
 const saltRounds = 10;
 env.config();
 
@@ -26,14 +27,25 @@ app.use(express.static("public"));
 app.use(passport.initialize());
 app.use(passport.session());
 
+// const db = new pg.Client({
+//   user: process.env.PG_USER,
+//   host: process.env.PG_HOST,
+//   database: process.env.PG_DATABASE,
+//   password: process.env.PG_PASSWORD,
+//   port: process.env.PG_PORT,
+// });
+// db.connect();
+
+// For deployment we need this
 const db = new pg.Client({
-  user: process.env.PG_USER,
-  host: process.env.PG_HOST,
-  database: process.env.PG_DATABASE,
-  password: process.env.PG_PASSWORD,
-  port: process.env.PG_PORT,
+  connectionString: process.env.DATABASE_URL,
+  ssl: process.env.NODE_ENV === "production"
+    ? { rejectUnauthorized: false }
+    : false,
 });
+
 db.connect();
+
 
 app.get("/", (req, res) => {
   res.render("home.ejs");
@@ -57,7 +69,7 @@ app.get("/logout", (req, res) => {
 });
 
 app.get("/secrets", async (req, res) => {
-  console.log(req.user);
+  // console.log(req.user);
   if (req.isAuthenticated()) {
     const row = await db.query("SELECT secret FROM users WHERE email = $1",[req.user.email]);
     var secret;
@@ -115,7 +127,7 @@ app.post("/register", async (req, res) => {
     ]);
 
     if (checkResult.rows.length > 0) {
-      req.redirect("/login");
+      res.redirect("/login");
     } else {
       bcrypt.hash(password, saltRounds, async (err, hash) => {
         if (err) {
@@ -190,7 +202,7 @@ passport.use(
     },
     async (accessToken, refreshToken, profile, cb) => {
       try {
-        console.log(profile);
+        // console.log(profile);
         const result = await db.query("SELECT * FROM users WHERE email = $1", [
           profile.email,
         ]);
