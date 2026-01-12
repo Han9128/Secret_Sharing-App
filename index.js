@@ -64,7 +64,7 @@ const createTables = async () => {
   }
 };
 
-createTables();
+await createTables();
 
 
 
