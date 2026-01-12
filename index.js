@@ -45,7 +45,7 @@ const db = new pg.Client({
 });
 
 const BASE_URL = process.env.NODE_ENV === "production"
-  ? "https://secret-sharing-app.onrender.com/" 
+  ? "https://secret-sharing-app.onrender.com" 
   : "http://localhost:3000";
 
 // For automatice TABLE creation for deployment
