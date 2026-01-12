@@ -1,4 +1,4 @@
-# Secret Sharing App
+# Secret Sharing App (
 
 This is a web application that demonstrates user authentication using Passport.js, an authentication middleware for Node.js. The application allows users to register, log in, and access a secrets page if authenticated. It also provides an option to authenticate using a Google account.
 
@@ -47,14 +47,13 @@ The project was built enhancing the security sequentially showcasing different s
 
 4. `Cookies_and_Session`: Introduces the use of cookies and sessions to enhance the user authentication process. This branch is live and hosted on for reviewing purposes.
 
-Each branch builds upon the previous one, incrementally improving the security of user authentication and data storage.
 
 ## Repository
 
-The app's source code and branches can be found on the GitHub repository at [`Secret_Sharing`](https://github.com/Han91/Secre_Sharing). Feel free to explore the different branches to review the security enhancements and implementation details.
+The app's source code and branches can be found on the GitHub repository at [`Secret_Sharing`](https://github.com/Han91/Secre_Sharing-App). Feel free to explore the different branches to review the security enhancements and implementation details.
 
 ## Live Demo
 
-For a live demonstration of the app with the latest security enhancements, you can visit.
+For a live demonstration of the app with the latest security enhancements, you can visit [Secret Sharing App](https://secret-sharing-app.onrender.com)
 
 Please note that this is a demo environment, and it may not be suitable for production use.
