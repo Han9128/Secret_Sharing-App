@@ -44,11 +44,14 @@ const db = new pg.Client({
     : false,
 });
 
-db.connect();
+const BASE_URL = process.env.NODE_ENV === "production"
+  ? "https://secret-sharing-app.onrender.com/" 
+  : "http://localhost:3000";
 
 // For automatice TABLE creation for deployment
 
-const createTables = async () => {
+const startApp = async () => {
+  await db.connect();
   try {
     await db.query(`
       CREATE TABLE IF NOT EXISTS users (
@@ -62,13 +65,8 @@ const createTables = async () => {
   } catch (err) {
     console.error("Error creating tables:", err);
   }
-};
 
-await createTables();
-
-
-
-app.get("/", (req, res) => {
+  app.get("/", (req, res) => {
   res.render("home.ejs");
 });
 
@@ -218,7 +216,7 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: "http://localhost:3000/auth/google/secrets",
+      callbackURL: `${BASE_URL}/auth/google/secrets`,
       userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo",
     },
     async (accessToken, refreshToken, profile, cb) => {
@@ -253,3 +251,10 @@ passport.deserializeUser((user, cb) => {
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
+
+};
+
+startApp();
+
+
+
